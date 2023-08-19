@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>All Profiles</title>
+  <link rel="stylesheet" href="/styles/base.css">
+  <link rel="stylesheet" href="/styles/profiles.css">
+  <!--왜 주소에 public을 빼고 써도 되는지 모르겠음 /public/styles/profiles.css
+   왜냐하면 express의 static 매서드를 통해 public 폴더가 전달됨을 명시해 놓았기 때문인듯.
+   view내부의 폴더를 호출할 때 /view를 안붙이는 것 처럼.
+   그러나 static 매서드의 괄호안의 콤마 앞 부분에 필터링할 주소를 쓰면 거기까지 적어줘야함. 26번째 줄과 app.js의 static매서드 부분 참조.
+  -->
+</head>
+<body>
+  <main>
+    <section id="user-controls">
+      <a class="btn" href="/new-user">Add a New User</a>
+    </section>
+    <section id="user-profiles">
+      <ul>
+        <% for (const user of users) { %>
+          <li class="user-item"> 
+            <article>
+              <img src="<%= user.imagePath %>" alt="The image of the user.">
+              <h2><%= user.name %></h2>
+            </article>
+          </li>
+        <% } %>
+      </ul>
+    </section>
+  </main>
+</body>
+</html>

@@ -1,0 +1,16 @@
+<article class="post-item">
+  <h2><%= post.title %></h2>
+  <p class="post-item-author">By <%= post.author.name %></p>
+  <p><%= post.summary %></p>
+  <div class="post-actions">
+    <form action="/posts/<%= post._id %>/delete" method="POST">   
+      <!--
+        button을 통해 서버에 요청을 보내고 싶다면 form을 사용하면 됨.
+        form을 사용하여 요청하는 링크와 post요청인지 get요청인지를 알려주면 됨.
+      -->
+      <button class="btn btn-alt">Delete Post</button>
+    </form>
+    <a href="/posts/<%= post._id %>/edit">Edit Post</a>
+    <a class="btn" href="/posts/<%= post._id %>">View Post</a>
+  </div>
+</article>

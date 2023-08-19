@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <%- include('includes/head', { title: 'Post title' }) %>
+  <link rel="stylesheet" href="/styles/posts.css">
+</head>
+
+<body>
+  <%- include('includes/header') %>
+  <main id="post-detail">
+    <h1><%= post.title %></h1>
+    <section id="post-meta">
+      <address>        <!-- 미리 선언되어져 있는 키워드 -->
+        <a href="mailto:<%= post.author.email %>"><%= post.author.name %></a>  <!-- mailto 명령어에 이메일 주소를 적으면 자동으로 이메일 프로그램이 열리고 그 주소가 설정되어져 있게 됨. -->
+      </address>
+      | <time datetime="<%= post.date %>"><%= post.humanReadableDate %></time>   <!-- 미리 선언되어져 있는 키워드 datetime은 필수 속성임. -->
+    </section>
+    <hr>
+    <section>
+      <p id="body"><%= post.body %></p> <!-- post.css의 맨끝 문장 확인해보기 white-space: pre-wrap; 명령어 의미 확인.-->
+    </section>
+  </main>
+</body>
+
+</html>

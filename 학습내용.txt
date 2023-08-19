@@ -1,0 +1,40 @@
+섹션27. 파일 등의 업로드
+
+1. 파일 업로드를 위한 html 요소 추가 (input요소 사용함.)
+ 1) 기본형식
+ - <input type="file" accept="첨부할 파일의 형태를 제한하는 부분">
+ - 예시 : <input type="file" id="image" name="image" accept= "image/jpg,image/png">
+   + accept 예시
+   accept= ".jpg,.png,.jpeg"  ->  ','를 사용하여 열거할 수 있음. 
+   image/jpg -> jpg든 jpeg든 상관없이 모든 jpeg 파일을 허용함.
+   image/*   -> 모든 사진 형식의 파일 허용.
+
+ 2) 추가사항
+ - 파일을 업로드하기 위해선 form 요소에 entype 속성을 추가해야 함.
+ - 이 속성은 첨부되는 파일이 어떻게 포장(encode)되고 서버 요청에 포함되어 요청으로 전송이 될지의 형태를 정하는 속성임.
+ - ex) <form action="/profiles" method="POST" enctype="">
+ - enctype의 값으로는 1) application/x-www-form-urlencoded 와 2) multipart/form-data
+   등이 있는데 '1)' 은 디폴트 값이고 파일이 하나라도 첨부되는 input이 존재한다면 '2)' 값으로 설정해야 함.
+   ex) <form action="/profiles" method="POST" enctype="multipart/form-data">
+
+2. enctype="multipart/form-data" 를 다루기 위한 패키지
+  * app.use(express.urlencodede({extended: false}));  -> 이 문장은   enctype: application/x-www-form-urlencode의 경우를 다루는 문장이라고 함.
+   1) multer 설치
+    : npm install --save multer
+
+   2) multer 사용
+    ㄱ. const multer = require(multer);
+    ㄴ. const upload = multer({ dest: 'images'});  // multer 함수 선언 + dest속성을 통해 파일을 저장할 경로도 알려줌.
+    ㄷ. POST 요청을 처리하기 위한 router.post() 메서드의 매개변수로 upload.single('')미들에어를 넣어줌.
+      upload.single('image')은 미들웨어 함수이며 요청이 
+      들어오면 그 요청을 분석하고 그 요청에 image 파일이 딸려오면 
+      그 파일로의 접속을 주는 매서드임.
+      - 하나의 파일을 업로드할 때 '.single'을 사용
+      - ()안의 값은 파일을 업로드하는 input의 name 속성을 적으면 됨.
+    ㄹ. req.file 을 통해 요청에 담긴 파일들에 접근함. 
+        ex) req.file.path  = multer에 설정된 파일 저장 경로가 저장됨.
+            req.file.name  = 파일 입력을 받는 동시에 multer는 자동으로 임의의 값으로 파일 명칭을 변경함. (이유: 파일 이름 중복방지)
+    ㅁ. ...
+
+    3) 파일 형태의 데이터는 데이터베이스에 저장하는 것이 아님. 기존처럼 폴더에 저장함.
+      - 데이터베이스는 파일의 저장에 최적화되어있지 않음.
